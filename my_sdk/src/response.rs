@@ -1,7 +1,9 @@
 #[cfg(feature = "rocket")]
 use std::io::Cursor;
 
+#[cfg(feature = "rocket")]
 use rocket::http::Status;
+
 #[cfg(feature = "rocket")]
 use rocket::{
     response::{Responder, Result as RResult},

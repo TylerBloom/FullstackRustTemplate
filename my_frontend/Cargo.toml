@@ -12,4 +12,9 @@ target = "wasm32-unknown-unknown"
 # In-house deps
 my_sdk = { path = "../my_sdk" }
 
-yew = { version = "0.19.3" }
+yew = { version = "0.19" }
+once_cell = { version = "1.13" }
+getrandom = { version = "0.2", features = ["js"] }
+itertools = { version = "0.10" }
+reqwasm = { version = "0.4" }
+tokio = { version = "1.0", features = ["rt", "macros"] }

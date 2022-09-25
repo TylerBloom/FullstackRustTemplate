@@ -11,7 +11,7 @@
 )]
 #![warn(rust_2018_idioms)]
 
-use std::collections::{HashMap, HashSet};
+use std::collections::{HashMap, HashSet, hash_map::Iter};
 
 use serde::{Serialize, Deserialize};
 use typed_id::TypedId;
@@ -34,14 +34,17 @@ pub struct Tournament {
 /// A simple struct for representing players in a tournament
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone)]
 pub struct Player {
-    name: String,
+    /// The name of the player
+    pub name: String,
 }
 
 /// A simple struct for representing games in a tournament
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone)]
 pub struct Game {
-    players: HashSet<PlayerId>,
-    winner: Option<PlayerId>,
+    /// All players in the game
+    pub players: HashSet<PlayerId>,
+    /// The winner, if one exists
+    pub winner: Option<PlayerId>,
 }
 
 /// A simple type alias for the data that is returned when performing a tournament action
@@ -95,9 +98,19 @@ impl Tournament {
         self.players.get(id)
     }
 
+    /// Gets an iterator over all the players
+    pub fn get_players<'a>(&'a self) -> Iter<'a, PlayerId, Player> {
+        self.players.iter()
+    }
+
     /// Gets a reference to a game
     pub fn get_game(&self, id: &GameId) -> Option<&Game> {
         self.games.get(id)
+    }
+
+    /// Gets an iterator over all games
+    pub fn get_games<'a>(&'a self) -> Iter<'a, GameId, Game> {
+        self.games.iter()
     }
 
     /// Gets the win record of all players (games without a winner are excluded)

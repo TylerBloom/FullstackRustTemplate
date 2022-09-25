@@ -44,3 +44,16 @@ pub type CreateTournamentResponse = BasicResponse<(TournamentId, Tournament)>;
 pub type PerformActionRequest = TournamentAction;
 /// The reponse type used by `api/v1/tournament/<id>/action`
 pub type PerformActionResponse = BasicResponse<Option<TournamentResult>>;
+
+#[cfg(test)]
+mod tests {
+    use crate::CreateTournamentRequest;
+
+    #[test]
+    fn basic_create() {
+        let data = serde_json::to_string(&CreateTournamentRequest).unwrap();
+        println!("{data}");
+        let data: CreateTournamentRequest = serde_json::from_str(&data).unwrap();
+        println!("{data:?}");
+    }
+}

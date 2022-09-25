@@ -5,9 +5,6 @@ edition = "2021"
 license = "lGPL-2.1"
 authors = ["TylerBloom <tylerbloom2222@gmail.com>"]
 
-[features]
-default = ["rocket"]
-
 [dependencies]
 # In-house deps
 my_lib = { path = "../my_lib" }
