@@ -793,6 +793,7 @@ name = "my_backend"
 version = "0.1.0-pre-alpha.1"
 dependencies = [
  "my_sdk",
+ "once_cell",
  "rocket",
  "tokio",
  "uuid",
