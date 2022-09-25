@@ -6,3 +6,6 @@ license = "lGPL-2.1"
 authors = ["TylerBloom <tylerbloom2222@gmail.com>"]
 
 [dependencies]
+typed_id = { version = "0.1", features = ["serde"] }
+uuid = { version = "1.0", features = ["v4", "serde"] }
+serde = { version = "1.0", features = ["derive"] }
