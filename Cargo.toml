@@ -1,0 +1,8 @@
+[workspace]
+
+members = [
+    "my_lib",
+    "my_sdk",
+    "my_backend",
+    "my_frontend",
+]

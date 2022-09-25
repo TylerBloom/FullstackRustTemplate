@@ -1,0 +1,14 @@
+[package]
+name = "my_backend"
+version = "0.1.0-pre-alpha.1"
+edition = "2021"
+license = "lGPL-2.1"
+authors = ["TylerBloom <tylerbloom2222@gmail.com>"]
+
+[dependencies]
+# In-house deps
+my_sdk = { path = "../my_sdk" }
+
+rocket = { version = "0.5.0-rc.1", features = ["secrets", "uuid", "tls", "json"] }
+uuid = { version = "1.1.2", features = ["serde", "v4"] }
+tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }

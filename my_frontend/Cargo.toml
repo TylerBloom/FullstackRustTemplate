@@ -1,0 +1,15 @@
+[package]
+name = "my_frontend"
+version = "0.1.0-pre-alpha.1"
+edition = "2021"
+license = "lGPL-2.1"
+authors = ["TylerBloom <tylerbloom2222@gmail.com>"]
+
+[build]
+target = "wasm32-unknown-unknown"
+
+[dependencies]
+# In-house deps
+my_sdk = { path = "../my_sdk" }
+
+yew = { version = "0.19.3" }

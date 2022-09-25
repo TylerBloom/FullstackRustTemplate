@@ -1,0 +1,8 @@
+[package]
+name = "my_lib"
+version = "0.1.0-pre-alpha.1"
+edition = "2021"
+license = "lGPL-2.1"
+authors = ["TylerBloom <tylerbloom2222@gmail.com>"]
+
+[dependencies]
