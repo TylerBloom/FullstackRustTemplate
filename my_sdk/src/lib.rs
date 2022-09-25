@@ -16,9 +16,23 @@
 /// business logic library contains and renames it to `model`.
 pub use my_lib as model;
 
-/// Contains the errors used by this crate
-pub mod error;
-/// Contains the types needed for the `api/v1/hello` endpoint
-pub mod hello;
+use model::{Tournament, TournamentAction, TournamentResult};
+
 /// Contains the wrapper response type
 pub mod response;
+
+use crate::response::BasicResponse;
+
+/// The reponse type used by `api/v1/hello/<name>`
+pub type HelloWorldResponse = BasicResponse<String>;
+
+#[derive(Debug)]
+/// The request type used by `api/v1/tournament/create`
+pub struct CreateTournamentRequest;
+/// The request type used by `api/v1/tournament/create`
+pub type CreateTournamentResponse = BasicResponse<Tournament>;
+
+/// The request type used by `api/v1/tournament/<id>/action`
+pub type PerformActionRequest = TournamentAction;
+/// The reponse type used by `api/v1/tournament/<id>/action`
+pub type PerformActionResponse = BasicResponse<Option<TournamentResult>>;

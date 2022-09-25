@@ -12,8 +12,8 @@ use serde::Deserialize;
 #[cfg(feature = "rocket")]
 use serde::Serialize;
 
-#[cfg(feature = "rocket")]
-use crate::error::SERIALIZER_ERROR;
+/// A shorthand used by SquireCore
+pub const SERIALIZER_ERROR: u16 = 500;
 
 #[derive(Debug, Deserialize)]
 /// Rocket requires the `Responder` trait to return a type as a response.
