@@ -820,6 +820,9 @@ dependencies = [
  "once_cell",
  "reqwasm",
  "tokio",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+ "web-sys",
  "yew",
 ]
 

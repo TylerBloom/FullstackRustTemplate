@@ -1,5 +1,6 @@
 //! Basic frontent
 
+/*
 #![deny(
     unused,
     irrefutable_let_patterns,
@@ -9,14 +10,17 @@
     unreachable_pub
 )]
 #![warn(rust_2018_idioms)]
+*/
 
 use std::{collections::HashMap, sync::RwLock};
 
 use yew::prelude::*;
 
+use reqwasm::http::Request;
 use itertools::Itertools;
 use once_cell::sync::OnceCell;
-use reqwasm::http::Request;
+use web_sys::{console};
+use tokio::runtime;
 
 use my_sdk::model::{Tournament, TournamentId};
 
@@ -51,18 +55,26 @@ fn app() -> Html {
         ).collect()
 }
 
-#[tokio::main(flavor = "current_thread")]
-async fn main() {
-    TOURNAMENTS
-        .set(RwLock::new(
-            Request::get("127.0.0.1:8000/api/v1/tournament/all")
-                .send()
-                .await
-                .expect("Could not contact backend")
-                .json()
-                .await
-                .expect("Could not serialize backend response"),
-        ))
-        .expect("Could not set TOURNAMENTS");
+pub fn main() {
+    console::log_1(&"Starting up!!".into());
+    let rt  = runtime::Builder::new_current_thread().build().expect("Could not create tokio runtime");
+    let data = rt.block_on(async {
+        Request::get("127.0.0.1:8000/api/v1/tournament/get/all")
+            .send()
+            .await
+            .expect("Could not contact backend")
+    });
+    let _json = rt.block_on(async move {
+        data
+            .json::<HashMap<TournamentId, Tournament>>()
+            .await
+            .expect("Could not serialize backend response")
+    });
+    console::log_1(&"Successful request".into());
+    /*
+    let map: HashMap<_, _> = response.unwrap().json().await.expect("Could not decode json");
+    console::log_1(&"JSON Successfully decoded".into());
+    TOURNAMENTS.set(RwLock::new(map)).expect("Could not set TOURNAMENTS");
     yew::start_app::<App>();
+    */
 }
