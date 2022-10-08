@@ -1,5 +1,6 @@
 //! Basic backend
 
+/*
 #![deny(
     unused,
     irrefutable_let_patterns,
@@ -9,11 +10,17 @@
     unreachable_pub
 )]
 #![warn(rust_2018_idioms)]
+*/
 
 use std::collections::HashMap;
 
 use once_cell::sync::OnceCell;
-use rocket::{get, post, routes, serde::json::Json, Build, Rocket};
+use rocket::{
+    fairing::{Fairing, Info, Kind},
+    get, post, routes,
+    serde::json::Json,
+    Build, http::Header, Request, Response, Rocket,
+};
 
 use my_sdk::{
     model::{Tournament, TournamentId},
@@ -28,9 +35,31 @@ use uuid::Uuid;
 
 static TOURNAMENTS: OnceCell<RwLock<HashMap<TournamentId, Tournament>>> = OnceCell::new();
 
+pub struct CORS;
+
+#[rocket::async_trait]
+impl Fairing for CORS {
+    fn info(&self) -> Info {
+        Info {
+            name: "Add CORS headers to responses",
+            kind: Kind::Response,
+        }
+    }
+
+    async fn on_response<'r>(&self, _request: &'r Request<'_>, response: &mut Response<'r>) {
+        response.set_header(Header::new("Access-Control-Allow-Origin", "*"));
+        response.set_header(Header::new(
+            "Access-Control-Allow-Methods",
+            "POST, GET, PATCH, OPTIONS",
+        ));
+        response.set_header(Header::new("Access-Control-Allow-Headers", "*"));
+        response.set_header(Header::new("Access-Control-Allow-Credentials", "true"));
+    }
+}
+
 #[get("/hello/<name>")]
 /// A simple "hello world" endpoint
-pub fn hello_world(name: String) -> HelloWorldResponse {
+pub fn hello(name: String) -> HelloWorldResponse {
     HelloWorldResponse::new(format!(
         "Hello {name}!! Welcome to the world of fullstack Rust development!!"
     ))
@@ -91,7 +120,8 @@ pub async fn perform_tournament_action(
 /// Creates our Rocket!!
 pub fn init() -> Rocket<Build> {
     rocket::build()
-        .mount("/api/v1/", routes![hello_world])
+        .attach(CORS)
+        .mount("/api/v1/", routes![hello])
         .mount(
             "/api/v1/tournament",
             routes![
